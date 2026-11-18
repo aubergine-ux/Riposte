@@ -7,8 +7,8 @@ import org.bukkit.Material;
  */
 public record Division(String name, int minElo, String color, Material icon) {
 
-    /** The division name wrapped in its color, ready for MiniMessage. */
+    /** The division name in its color, ready for MiniMessage. Open tags are closed so the color never leaks. */
     public String formatted() {
-        return color + name;
+        return color + name + "<reset>";
     }
 }

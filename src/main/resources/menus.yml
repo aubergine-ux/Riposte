@@ -248,7 +248,7 @@ leaderboards:
     lore-header:
       - '<muted><season>'
       - ''
-    line: '<rank_color><rank>.</rank_color> <white><name></white> <dark_gray>-</dark_gray> <division_color><elo>'
+    line: '<rank_color><rank>. <white><name></white> <dark_gray>-</dark_gray> <division_color><elo>'
     empty: '<muted>No ranked games yet.'
     lore-footer:
       - ''

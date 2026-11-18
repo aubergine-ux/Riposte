@@ -249,6 +249,7 @@ summary:
   icon-win: '<success>✔'
   icon-loss: '<error>✘'
   player: ' <icon> <white><name></white> <error><health>❤</error> <muted>· <hits> hits · <combo> combo · <damage>❤ dealt</muted><potions><elo>'
+  player-no-damage: ' <icon> <white><name></white> <muted>· <hits> hits · <combo> longest combo</muted>'
   player-bridge: ' <icon> <white><name></white> <muted>· <goals> goals · <kills> kills · <hits> hits</muted>'
   potions: '<muted> · <count> pots (<accuracy>%)'
   elo-gain: ' <success><delta> ELO</success>'
@@ -344,13 +345,13 @@ leaderboard:
   chat-header:
     - '<dark_gray><st>                                        </st>'
     - ' <board> <text>Leaderboard <muted>· <season>'
-  chat-line: ' <rank_color><rank>.</rank_color> <white><name></white> <muted>-</muted> <accent><elo></accent> <division> <muted>(<wins>W <losses>L)'
+  chat-line: ' <rank_color><rank>. <white><name></white> <muted>-</muted> <accent><elo></accent> <division> <muted>(<wins>W <losses>L)'
   chat-empty: ' <muted>No ranked games yet this season.'
   chat-footer: '<dark_gray><st>                                        </st>'
 
 hologram:
   title: '<board> <text><b>Leaderboard'
-  line: '<rank_color><rank>.</rank_color> <white><name></white> <dark_gray>-</dark_gray> <division_color><elo>'
+  line: '<rank_color><rank>. <white><name></white> <dark_gray>-</dark_gray> <division_color><elo>'
   empty: '<dark_gray><rank>. ---'
   footer: '<muted><season>'
 

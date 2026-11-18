@@ -72,8 +72,9 @@ final class MatchSummary {
             elo = m.get(delta >= 0 ? "summary.elo-gain" : "summary.elo-loss", Text.p("before", p.eloBefore),
                     Text.p("after", p.eloAfter), Text.p("delta", (delta >= 0 ? "+" : "") + delta));
         }
-        String key = match.kit().rules().winCondition == io.github.aubergineux.riposte.kit.KitRules.WinCondition.BRIDGE
-                ? "summary.player-bridge" : "summary.player";
+        var rules = match.kit().rules();
+        String key = rules.winCondition == io.github.aubergineux.riposte.kit.KitRules.WinCondition.BRIDGE ? "summary.player-bridge"
+                : rules.damageDisabled() ? "summary.player-no-damage" : "summary.player";
         return m.get(key,
                 Text.c("name", name),
                 Text.mm("icon", m.raw(won ? "summary.icon-win" : "summary.icon-loss")),
