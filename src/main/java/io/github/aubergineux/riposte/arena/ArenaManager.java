@@ -69,6 +69,7 @@ public final class ArenaManager {
     public void enable() {
         arenaWorld = voidWorld(plugin.settings().arenaWorld);
         templateWorld = voidWorld(plugin.settings().templateWorld);
+        arenaWorld.removePluginChunkTickets(plugin);
         load();
         jobTask = Bukkit.getScheduler().runTaskTimer(plugin, () -> processJobs(), 1L, 1L);
     }
@@ -354,6 +355,7 @@ public final class ArenaManager {
             BlockPos origin = new BlockPos(i * spacing, arena.min().y(), arena.gridSlot() * spacing);
             ArenaCopy copy = new ArenaCopy(arena, i, arenaWorld, origin);
             arena.copies().add(copy);
+            keepLoaded(copy, true);
             if (i < alreadyPasted && !dirty.contains(copy.id())) {
                 copy.state(ArenaCopy.State.AVAILABLE);
             } else {
@@ -365,7 +367,25 @@ public final class ArenaManager {
         }
     }
 
+    /** Arena chunks stay loaded so teleporting into a match never loads chunks on the main thread. */
+    private void keepLoaded(ArenaCopy copy, boolean add) {
+        if (!plugin.settings().keepArenasLoaded) {
+            return;
+        }
+        BlockPos max = copy.max();
+        for (int cx = copy.origin().x() >> 4; cx <= max.x() >> 4; cx++) {
+            for (int cz = copy.origin().z() >> 4; cz <= max.z() >> 4; cz++) {
+                if (add) {
+                    arenaWorld.addPluginChunkTicket(cx, cz, plugin);
+                } else {
+                    arenaWorld.removePluginChunkTicket(cx, cz, plugin);
+                }
+            }
+        }
+    }
+
     private void clearRegion(ArenaCopy copy) {
+        keepLoaded(copy, false);
         BlockPos max = copy.max();
         BlockData air = Bukkit.createBlockData(org.bukkit.Material.AIR);
         List<BlockPos> positions = new ArrayList<>();
@@ -495,13 +515,31 @@ public final class ArenaManager {
         processJobs(plugin.settings().pasteBlocksPerTick);
     }
 
+    /** Deadline for the current tick's block work; jobs check it every few hundred blocks. */
+    private long deadline = Long.MAX_VALUE;
+
+    private boolean outOfTime(int done) {
+        return (done & 255) == 255 && System.nanoTime() > deadline;
+    }
+
     private void processJobs(int budget) {
-        while (budget > 0 && !jobs.isEmpty()) {
+        deadline = budget == Integer.MAX_VALUE ? Long.MAX_VALUE : System.nanoTime() + plugin.settings().arenaMillisPerTick * 1_000_000L;
+        int waiting = 0;
+        while (budget > 0 && !jobs.isEmpty() && waiting < jobs.size()) {
             BlockJob job = jobs.peekFirst();
-            budget -= job.run(budget);
+            int used = job.run(budget);
             if (job.done()) {
                 jobs.pollFirst();
                 job.finish();
+                waiting = 0;
+            } else if (used == 0) {
+                // still waiting for chunks; try the next job
+                jobs.addLast(jobs.pollFirst());
+                waiting++;
+            }
+            budget -= used;
+            if (System.nanoTime() > deadline) {
+                break;
             }
         }
     }
@@ -529,6 +567,7 @@ public final class ArenaManager {
         private int y;
         private int z;
         private boolean finished;
+        private java.util.concurrent.CompletableFuture<Void> chunksReady;
 
         PasteJob(ArenaCopy copy) {
             super(copy);
@@ -545,14 +584,39 @@ public final class ArenaManager {
             }
         }
 
+        /** Loads source and target chunks off the main thread before the first block is copied. */
+        private boolean chunksLoaded() {
+            if (chunksReady == null) {
+                List<java.util.concurrent.CompletableFuture<?>> futures = new ArrayList<>();
+                BlockPos origin = copy.origin();
+                BlockPos targetMax = copy.max();
+                for (int cx = min.x() >> 4; cx <= max.x() >> 4; cx++) {
+                    for (int cz = min.z() >> 4; cz <= max.z() >> 4; cz++) {
+                        futures.add(source.getChunkAtAsync(cx, cz));
+                    }
+                }
+                for (int cx = origin.x() >> 4; cx <= targetMax.x() >> 4; cx++) {
+                    for (int cz = origin.z() >> 4; cz <= targetMax.z() >> 4; cz++) {
+                        futures.add(copy.world().getChunkAtAsync(cx, cz));
+                    }
+                }
+                chunksReady = java.util.concurrent.CompletableFuture.allOf(futures.toArray(new java.util.concurrent.CompletableFuture[0]));
+            }
+            return chunksReady.isDone();
+        }
+
         @Override
         int run(int budget) {
+            if (!finished && !chunksLoaded()) {
+                // let other jobs use this tick while chunks load
+                return 0;
+            }
             int done = 0;
             BlockPos origin = copy.origin();
             int dx = origin.x() - min.x();
             int dy = origin.y() - min.y();
             int dz = origin.z() - min.z();
-            while (!finished && done < budget) {
+            while (!finished && done < budget && !outOfTime(done)) {
                 Block from = source.getBlockAt(x, y, z);
                 Block to = copy.world().getBlockAt(x + dx, y + dy, z + dz);
                 BlockData data = from.getBlockData();
@@ -606,7 +670,7 @@ public final class ArenaManager {
         @Override
         int run(int budget) {
             int done = 0;
-            while (index < changes.size() && done < budget) {
+            while (index < changes.size() && done < budget && !outOfTime(done)) {
                 BlockChangeTracker.Change<BlockData> change = changes.get(index++);
                 BlockPos pos = BlockPos.unpack(change.position());
                 copy.world().getBlockAt(pos.x(), pos.y(), pos.z()).setBlockData(change.original(), false);
@@ -648,7 +712,7 @@ public final class ArenaManager {
         @Override
         int run(int budget) {
             int done = 0;
-            while (index < positions.size() && done < budget) {
+            while (index < positions.size() && done < budget && !outOfTime(done)) {
                 BlockPos pos = positions.get(index++);
                 Block block = copy.world().getBlockAt(pos.x(), pos.y(), pos.z());
                 if (!block.getType().isAir()) {
