@@ -24,21 +24,19 @@ install, no hologram or scoreboard plugins, no API keys.
 
 ## Features
 
-| | |
-|---|---|
-| ⚔️ **10 built-in kits** | NoDebuff, Sword, Axe, Crystal, UHC, BuildUHC, Sumo, Boxing, Bridge and Mace, each with its own rules. Admins edit loadouts in game. |
-| 🎒 **Kit editor** | Players rearrange their hotbar per kit. Layouts are saved and survive later changes to the kit. |
-| 🕐 **Queues** | Unranked and ranked queues per kit from a clean menu, with live queue and fight counts and your wait time. |
-| 🤺 **Duels** | `/duel <player>` with kit and arena pickers, clickable accept and deny buttons, and a rematch button. |
-| 🏟️ **Self-resetting arenas** | Build with a wand or generate one. Copies are pasted into a void world so many matches run at once, and every placed, broken, burnt or exploded block is restored afterwards. |
-| 🏆 **Ranked** | ELO per kit with provisional K, named and colored divisions, seasons with soft or hard resets, and leaderboards in a menu, in chat and as holograms. |
-| 📊 **Match experience** | Countdown and titles, a sidebar with opponent health and ping, combo counter, and an end-of-match summary with clickable inventory previews. |
-| 👁️ **Spectating** | `/spectate` any live match, flying and invisible, or pick one from a menu. |
-| 🎉 **Parties and events** | Party split, FFA and party vs party fights, plus hosted tournaments and sumo events with automatic brackets. |
-| 📈 **Stats** | Wins, losses, K/D, streaks and an ELO history sparkline per kit in `/stats`. |
-| ⚙️ **Player settings** | Toggle duel requests, the scoreboard, spectators and your time of day. |
-| 🎨 **Fully configurable** | Every message, menu, hotbar item, color and sidebar line is MiniMessage in YAML. |
-| 💾 **Zero-setup storage** | SQLite out of the box, MySQL or MariaDB for networks. All queries run off the main thread. |
+- ⚔️ **10 built-in kits**: NoDebuff, Sword, Axe, Crystal, UHC, BuildUHC, Sumo, Boxing, Bridge and Mace, each with its own rules. Admins edit loadouts in game.
+- 🎒 **Kit editor**: Players rearrange their hotbar per kit. Layouts are saved and survive later changes to the kit.
+- 🕐 **Queues**: Unranked and ranked queues per kit from a clean menu, with live queue and fight counts and your wait time.
+- 🤺 **Duels**: `/duel <player>` with kit and arena pickers, clickable accept and deny buttons, and a rematch button.
+- 🏟️ **Self-resetting arenas**: Build with a wand or generate one. Copies are pasted into a void world so many matches run at once, and every placed, broken, burnt or exploded block is restored afterwards.
+- 🏆 **Ranked**: ELO per kit with provisional K, named and colored divisions, seasons with soft or hard resets, and leaderboards in a menu, in chat and as holograms.
+- 📊 **Match experience**: Countdown and titles, a sidebar with opponent health and ping, combo counter, and an end-of-match summary with clickable inventory previews.
+- 👁️ **Spectating**: `/spectate` any live match, flying and invisible, or pick one from a menu.
+- 🎉 **Parties and events**: Party split, FFA and party vs party fights, plus hosted tournaments and sumo events with automatic brackets.
+- 📈 **Stats**: Wins, losses, K/D, streaks and an ELO history sparkline per kit in `/stats`.
+- ⚙️ **Player settings**: Toggle duel requests, the scoreboard, spectators and your time of day.
+- 🎨 **Fully configurable**: Every message, menu, hotbar item, color and sidebar line is MiniMessage in YAML.
+- 💾 **Zero-setup storage**: SQLite out of the box, MySQL or MariaDB for networks. All queries run off the main thread.
 
 Riposte is a fair-play plugin: there is nothing in it that gives one player an edge over another.
 
