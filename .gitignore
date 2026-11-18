@@ -1,0 +1,54 @@
+# Build output
+build/
+out/
+target/
+*.class
+
+# Gradle
+.gradle/
+!gradle/wrapper/gradle-wrapper.jar
+.kotlin/
+
+# IDEs
+.idea/
+*.iml
+*.ipr
+*.iws
+.vscode/
+.settings/
+.project
+.classpath
+.factorypath
+bin/
+*.swp
+*~
+
+# OS files
+.DS_Store
+Thumbs.db
+desktop.ini
+ehthumbs.db
+
+# Local test servers
+run/
+server/
+test-server/
+tools/bots/node_modules/
+tools/bots/out/
+
+# AI tool files and personal notes
+CLAUDE.md
+CLAUDE.local.md
+.claude/
+AGENTS.md
+.cursor/
+.cursorrules
+.aider*
+.copilot/
+notes/
+NOTES.md
+*.notes.md
+
+# Logs
+*.log
+logs/
