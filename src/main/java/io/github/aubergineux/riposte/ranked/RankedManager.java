@@ -30,6 +30,7 @@ public final class RankedManager {
     private final Map<String, List<DataStore.LeaderboardEntry>> boards = new ConcurrentHashMap<>();
     private DataStore.Season season;
     private BukkitTask refreshTask;
+    private boolean refreshQueued;
 
     public RankedManager(RipostePlugin plugin) {
         this.plugin = plugin;
@@ -110,6 +111,7 @@ public final class RankedManager {
         loser.eloAfter = lr.elo;
         plugin.dataStore().saveRating(winner.uuid(), kit, season.id(), wr, winner.eloBefore, loser.name(), true);
         plugin.dataStore().saveRating(loser.uuid(), kit, season.id(), lr, loser.eloBefore, winner.name(), false);
+        queueRefresh();
         notify(winner.player(), match, outcome.winnerDelta(), wr.elo, wBefore);
         notify(loser.player(), match, outcome.loserDelta(), lr.elo, lBefore);
     }
@@ -133,6 +135,18 @@ public final class RankedManager {
 
     public List<DataStore.LeaderboardEntry> board(String key) {
         return boards.getOrDefault(key, List.of());
+    }
+
+    /** Refreshes boards shortly after a ranked result, batching results that land close together. */
+    private void queueRefresh() {
+        if (refreshQueued) {
+            return;
+        }
+        refreshQueued = true;
+        Bukkit.getScheduler().runTaskLater(plugin, () -> {
+            refreshQueued = false;
+            refreshLeaderboards();
+        }, 60L);
     }
 
     public void refreshLeaderboards() {
