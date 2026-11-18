@@ -1,0 +1,57 @@
+name: Bug report
+description: Something in Riposte is broken or behaves unexpectedly.
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: Thanks for taking the time to report this. The more detail you give, the faster it gets fixed.
+  - type: textarea
+    id: what-happened
+    attributes:
+      label: What happened?
+      description: What did you do, what did you expect, and what happened instead?
+    validations:
+      required: true
+  - type: textarea
+    id: steps
+    attributes:
+      label: Steps to reproduce
+      placeholder: |
+        1. Queue for ranked NoDebuff
+        2. ...
+    validations:
+      required: true
+  - type: input
+    id: riposte-version
+    attributes:
+      label: Riposte version
+      placeholder: "0.1.0"
+    validations:
+      required: true
+  - type: input
+    id: server-version
+    attributes:
+      label: Paper version
+      description: Output of /version
+      placeholder: "Paper 26.3-255"
+    validations:
+      required: true
+  - type: dropdown
+    id: storage
+    attributes:
+      label: Storage
+      options:
+        - SQLite (default)
+        - MySQL / MariaDB
+  - type: textarea
+    id: logs
+    attributes:
+      label: Server log
+      description: Paste any errors from the console. This is formatted as code automatically.
+      render: text
+  - type: textarea
+    id: config
+    attributes:
+      label: Relevant config
+      description: Any changes you made to config.yml, kits.yml or arenas.yml that might matter.
+      render: yaml
