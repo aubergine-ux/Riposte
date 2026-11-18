@@ -196,6 +196,17 @@ async function run(name, action, args) {
       log(name, `BLOCK ${b && b.name}`);
       break;
     }
+    case 'leftclick': {
+      const b = bot.blockAt(bot.entity.position.offset(parseFloat(args[0]), parseFloat(args[1]), parseFloat(args[2])));
+      bot.dig(b).catch(() => {});
+      setTimeout(() => bot.stopDigging(), 250);
+      break;
+    }
+    case 'rightclick': {
+      const b = bot.blockAt(bot.entity.position.offset(parseFloat(args[0]), parseFloat(args[1]), parseFloat(args[2])));
+      await bot.activateBlock(b).catch((e) => log(name, `RCLICK err ${e.message}`));
+      break;
+    }
     case 'quit': stopFight(name); bot.quit(); break;
     case 'join': spawnBot(name); break;
     default: log(name, `UNKNOWN ${action}`);
