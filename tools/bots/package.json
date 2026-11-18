@@ -1,0 +1,8 @@
+{
+  "name": "riposte-test-bots",
+  "private": true,
+  "type": "commonjs",
+  "dependencies": {
+    "mineflayer": "4.39.0"
+  }
+}

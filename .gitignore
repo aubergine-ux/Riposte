@@ -31,6 +31,7 @@ ehthumbs.db
 
 # Local test servers
 run/
+run*/
 server/
 test-server/
 tools/bots/node_modules/
@@ -52,3 +53,7 @@ NOTES.md
 # Logs
 *.log
 logs/
+tools/bots/ctl.txt
+tools/bots/*.log
+tools/bots/harness.out
+tools/bots/package-lock.json
