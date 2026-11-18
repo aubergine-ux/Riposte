@@ -1,0 +1,148 @@
+# Sidebar layouts. Every line is MiniMessage. Up to 15 lines per board.
+# Colors <primary>, <accent>, <muted>, <text>, <success>, <error> come from messages.yml.
+#
+# Everywhere: <online> <in_queue> <in_fight> <player> <ping> <global_elo> <division> <season> <wins> <losses> <server>
+# Queue: <kit> <queue_type> <queue_time> <elo>
+# 1v1 match: <name> <health> <ping> <hits> <combo> <pots> and the same with an opponent_ prefix,
+#            <hit_diff> <kit> <arena> <duration> <round> <target> <spectators>
+# Spectating: p1_ and p2_ prefixes, e.g. <p1_name> <p1_health>
+# Team match: <team_alive> <team_size> <enemy_alive> <enemy_size> <team_score> <enemy_score> <red_score> <blue_score>
+# FFA: <alive> <total> <hits> <kills>
+# Party: <party_leader> <party_size> <party_max>
+# Event: <event> <event_kit> <event_players> <event_starts> <event_round>
+
+enabled: true
+title: '<gradient:#ff4f64:#ffb547><b>RIPOSTE</b></gradient>'
+server-name: '<muted>play.example.net'
+
+boards:
+  lobby:
+    - '<dark_gray><st>                    </st>'
+    - '<text>Online <primary><online>'
+    - '<text>Fighting <primary><in_fight>'
+    - '<text>Queueing <primary><in_queue>'
+    - ''
+    - '<text>Rank <division>'
+    - '<text>ELO <accent><global_elo>'
+    - '<muted><season>'
+    - '<dark_gray><st>                    </st> '
+    - '<server>'
+  party:
+    - '<dark_gray><st>                    </st>'
+    - '<text>Online <primary><online>'
+    - '<text>Fighting <primary><in_fight>'
+    - ''
+    - '<accent>Party'
+    - '<text> Leader <primary><party_leader>'
+    - '<text> Members <primary><party_size><muted>/<party_max>'
+    - '<dark_gray><st>                    </st> '
+    - '<server>'
+  queue:
+    - '<dark_gray><st>                    </st>'
+    - '<text>Online <primary><online>'
+    - '<text>Fighting <primary><in_fight>'
+    - ''
+    - '<accent><queue_type> Queue'
+    - '<text> Kit <kit>'
+    - '<text> Time <primary><queue_time>'
+    - '<text> ELO <primary><elo>'
+    - '<dark_gray><st>                    </st> '
+    - '<server>'
+  match:
+    - '<dark_gray><st>                    </st>'
+    - '<text>Opponent <error><opponent_name>'
+    - '<text> Health <error><opponent_health>❤'
+    - '<text> Ping <muted><opponent_ping>ms'
+    - ''
+    - '<text>Hits <success><hits> <muted>vs <error><opponent_hits>'
+    - '<text>Combo <accent><combo>'
+    - '<text>Your ping <muted><ping>ms'
+    - ''
+    - '<text>Kit <kit> <muted>· <duration>'
+    - '<dark_gray><st>                    </st> '
+    - '<server>'
+  match-boxing:
+    - '<dark_gray><st>                    </st>'
+    - '<text>Opponent <error><opponent_name>'
+    - '<text> Ping <muted><opponent_ping>ms'
+    - ''
+    - '<text>Hits <success><hits> <muted>/ <target>'
+    - '<text>Theirs <error><opponent_hits>'
+    - '<text>Lead <hit_diff>'
+    - '<text>Combo <accent><combo>'
+    - ''
+    - '<text>Kit <kit> <muted>· <duration>'
+    - '<dark_gray><st>                    </st> '
+    - '<server>'
+  match-sumo:
+    - '<dark_gray><st>                    </st>'
+    - '<text>Opponent <error><opponent_name>'
+    - '<text> Ping <muted><opponent_ping>ms'
+    - ''
+    - '<text>Rounds <success><team_score> <muted>- <error><enemy_score> <muted>(first to <target>)'
+    - '<text>Hits <success><hits> <muted>vs <error><opponent_hits>'
+    - '<text>Your ping <muted><ping>ms'
+    - ''
+    - '<text>Kit <kit> <muted>· <duration>'
+    - '<dark_gray><st>                    </st> '
+    - '<server>'
+  match-bridge:
+    - '<dark_gray><st>                    </st>'
+    - '<red>Red <white><red_score><muted>/<target>'
+    - '<blue>Blue <white><blue_score><muted>/<target>'
+    - ''
+    - '<text>Opponent <error><opponent_name>'
+    - '<text> Health <error><opponent_health>❤'
+    - '<text>Your ping <muted><ping>ms'
+    - ''
+    - '<text>Kit <kit> <muted>· <duration>'
+    - '<dark_gray><st>                    </st> '
+    - '<server>'
+  match-team:
+    - '<dark_gray><st>                    </st>'
+    - '<text>Your team <success><team_alive><muted>/<team_size>'
+    - '<text>Enemies <error><enemy_alive><muted>/<enemy_size>'
+    - ''
+    - '<text>Rounds <success><team_score> <muted>- <error><enemy_score>'
+    - '<text>Your ping <muted><ping>ms'
+    - ''
+    - '<text>Kit <kit> <muted>· <duration>'
+    - '<dark_gray><st>                    </st> '
+    - '<server>'
+  match-ffa:
+    - '<dark_gray><st>                    </st>'
+    - '<text>Alive <primary><alive><muted>/<total>'
+    - '<text>Kills <success><kills>'
+    - '<text>Hits <accent><hits>'
+    - ''
+    - '<text>Kit <kit> <muted>· <duration>'
+    - '<dark_gray><st>                    </st> '
+    - '<server>'
+  spectating:
+    - '<dark_gray><st>                    </st>'
+    - '<red><p1_name>'
+    - '<text> <error><p1_health>❤ <muted>· <p1_hits> hits · <p1_ping>ms'
+    - '<blue><p2_name>'
+    - '<text> <error><p2_health>❤ <muted>· <p2_hits> hits · <p2_ping>ms'
+    - ''
+    - '<text>Kit <kit> <muted>· <duration>'
+    - '<text>Watching <primary><spectators>'
+    - '<dark_gray><st>                    </st> '
+    - '<server>'
+  spectating-team:
+    - '<dark_gray><st>                    </st>'
+    - '<text>Alive <primary><alive><muted>/<total>'
+    - ''
+    - '<text>Kit <kit> <muted>· <duration>'
+    - '<text>Watching <primary><spectators>'
+    - '<dark_gray><st>                    </st> '
+    - '<server>'
+  event:
+    - '<dark_gray><st>                    </st>'
+    - '<accent><event>'
+    - '<text> Kit <event_kit>'
+    - '<text> Players <primary><event_players>'
+    - '<text> Starts in <primary><event_starts>'
+    - '<text> Round <primary><event_round>'
+    - '<dark_gray><st>                    </st> '
+    - '<server>'

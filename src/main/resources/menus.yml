@@ -1,0 +1,452 @@
+# ---------------------------------------------------------------------------
+#  Menu titles, items and hotbar layouts. Text is MiniMessage and can use the
+#  palette tags from messages.yml (<primary>, <accent>, <text>, <muted>, ...).
+#  Items take material, name, lore, amount and glow.
+# ---------------------------------------------------------------------------
+
+filler:
+  material: GRAY_STAINED_GLASS_PANE
+border:
+  material: BLACK_STAINED_GLASS_PANE
+
+common:
+  empty:
+    material: BARRIER
+    name: '<error>Nothing here yet'
+    lore:
+      - '<muted>Ask an admin to run /riposte setup.'
+  close:
+    material: BARRIER
+    name: '<error>Close'
+
+# ------------------------------------------------------------------ hotbars
+# action: UNRANKED, RANKED, KIT_EDITOR, LEADERBOARDS, SETTINGS, STATS, SPECTATE_MENU,
+#         PARTY_CREATE, PARTY_MENU, PARTY_INFO, PARTY_LEAVE, LEAVE_QUEUE, LEAVE_SPECTATE,
+#         SPECTATE_NEXT, EVENT_JOIN, EVENT_LEAVE
+hotbar:
+  lobby:
+    unranked:
+      slot: 0
+      material: IRON_SWORD
+      name: '<text><b>Unranked</b> <muted>· right click'
+      lore:
+        - '<muted>Casual 1v1s in any kit.'
+      action: UNRANKED
+    ranked:
+      slot: 1
+      material: DIAMOND_SWORD
+      name: '<accent><b>Ranked</b> <muted>· right click'
+      lore:
+        - '<muted>Climb the ELO ladder.'
+      action: RANKED
+    party:
+      slot: 4
+      material: NAME_TAG
+      name: '<primary><b>Create Party</b> <muted>· right click'
+      action: PARTY_CREATE
+    spectate:
+      slot: 5
+      material: ENDER_EYE
+      name: '<text><b>Spectate</b> <muted>· right click'
+      action: SPECTATE_MENU
+    leaderboards:
+      slot: 6
+      material: GOLD_INGOT
+      name: '<accent><b>Leaderboards</b> <muted>· right click'
+      action: LEADERBOARDS
+    editor:
+      slot: 7
+      material: BOOK
+      name: '<text><b>Kit Editor</b> <muted>· right click'
+      action: KIT_EDITOR
+    settings:
+      slot: 8
+      material: COMPARATOR
+      name: '<text><b>Settings</b> <muted>· right click'
+      action: SETTINGS
+  queue:
+    stats:
+      slot: 0
+      material: PAPER
+      name: '<text><b>Your Stats</b> <muted>· right click'
+      action: STATS
+    leave:
+      slot: 8
+      material: RED_DYE
+      name: '<error><b>Leave Queue</b> <muted>· right click'
+      action: LEAVE_QUEUE
+  party-leader:
+    fights:
+      slot: 0
+      material: GOLDEN_AXE
+      name: '<primary><b>Party Fights</b> <muted>· right click'
+      lore:
+        - '<muted>Split teams, FFA or fight another party.'
+      action: PARTY_MENU
+    info:
+      slot: 4
+      material: PAPER
+      name: '<text><b>Party Info</b> <muted>· right click'
+      action: PARTY_INFO
+    editor:
+      slot: 7
+      material: BOOK
+      name: '<text><b>Kit Editor</b> <muted>· right click'
+      action: KIT_EDITOR
+    leave:
+      slot: 8
+      material: RED_DYE
+      name: '<error><b>Leave Party</b> <muted>· right click'
+      action: PARTY_LEAVE
+  party-member:
+    info:
+      slot: 0
+      material: PAPER
+      name: '<text><b>Party Info</b> <muted>· right click'
+      action: PARTY_INFO
+    editor:
+      slot: 7
+      material: BOOK
+      name: '<text><b>Kit Editor</b> <muted>· right click'
+      action: KIT_EDITOR
+    leave:
+      slot: 8
+      material: RED_DYE
+      name: '<error><b>Leave Party</b> <muted>· right click'
+      action: PARTY_LEAVE
+  spectator:
+    next:
+      slot: 0
+      material: COMPASS
+      name: '<text><b>Switch Player</b> <muted>· right click'
+      action: SPECTATE_NEXT
+    leave:
+      slot: 8
+      material: RED_DYE
+      name: '<error><b>Stop Spectating</b> <muted>· right click'
+      action: LEAVE_SPECTATE
+  event:
+    editor:
+      slot: 7
+      material: BOOK
+      name: '<text><b>Kit Editor</b> <muted>· right click'
+      action: KIT_EDITOR
+    leave:
+      slot: 8
+      material: RED_DYE
+      name: '<error><b>Leave Event</b> <muted>· right click'
+      action: EVENT_LEAVE
+  dead:
+    next:
+      slot: 0
+      material: COMPASS
+      name: '<text><b>Switch Player</b> <muted>· right click'
+      action: SPECTATE_NEXT
+
+# ------------------------------------------------------------------ queue
+queue-unranked:
+  title: '<dark_gray>Unranked Queue'
+  kit:
+    name: '<kit>'
+    lore:
+      - '<muted><description>'
+      - ''
+      - '<text>Queueing <primary><queued>'
+      - '<text>Fighting <primary><fighting>'
+      - ''
+      - '<success>▶ Click to queue'
+queue-ranked:
+  title: '<dark_gray>Ranked Queue'
+  kit:
+    name: '<kit>'
+    lore:
+      - '<muted><description>'
+      - ''
+      - '<text>Your ELO <accent><elo></accent> <division>'
+      - '<text>Queueing <primary><queued>'
+      - '<text>Fighting <primary><fighting>'
+      - ''
+      - '<success>▶ Click to queue ranked'
+
+# ------------------------------------------------------------------ kit pickers
+kit-select-editor:
+  title: '<dark_gray>Kit Editor'
+  custom: '<success>Custom layout saved'
+  default: '<muted>Using the default layout'
+  kit:
+    name: '<kit>'
+    lore:
+      - '<layout>'
+      - ''
+      - '<success>▶ Click to edit'
+kit-select-duel:
+  title: '<dark_gray>Choose a Kit'
+  kit:
+    name: '<kit>'
+    lore:
+      - '<muted><description>'
+      - ''
+      - '<success>▶ Click to choose'
+kit-select-party:
+  title: '<dark_gray>Party Fight Kit'
+  kit:
+    name: '<kit>'
+    lore:
+      - '<muted><description>'
+      - ''
+      - '<success>▶ Click to start'
+kit-select-event:
+  title: '<dark_gray>Event Kit'
+  kit:
+    name: '<kit>'
+    lore:
+      - '<muted><description>'
+      - ''
+      - '<success>▶ Click to host'
+
+arena-select:
+  title: '<dark_gray>Choose an Arena'
+  random:
+    material: ENDER_PEARL
+    name: '<accent><b>Random Arena'
+    lore:
+      - '<muted>Any free arena for this kit.'
+  arena:
+    name: '<arena>'
+    lore:
+      - '<text>Free copies <primary><free></primary><muted>/<copies>'
+      - ''
+      - '<success>▶ Click to choose'
+
+kit-editor:
+  title: '<dark_gray>Editing <kit>'
+  info:
+    slot: 4
+    name: '<kit>'
+    lore:
+      - '<text>Move items around in your'
+      - '<text>inventory below, then save.'
+      - '<muted>Armor stays where it is.'
+  save:
+    slot: 11
+    material: LIME_CONCRETE
+    name: '<success><b>Save Layout'
+  reset:
+    slot: 13
+    material: YELLOW_CONCRETE
+    name: '<accent><b>Reset to Default'
+  cancel:
+    slot: 15
+    material: RED_CONCRETE
+    name: '<error><b>Cancel'
+
+# ------------------------------------------------------------------ leaderboards
+leaderboards:
+  title: '<dark_gray>Leaderboards · <season>'
+  board:
+    name: '<board> <text>Top 10'
+    lore-header:
+      - '<muted><season>'
+      - ''
+    line: '<rank_color><rank>.</rank_color> <white><name></white> <dark_gray>-</dark_gray> <division_color><elo>'
+    empty: '<muted>No ranked games yet.'
+    lore-footer:
+      - ''
+      - '<success>▶ Click to show in chat'
+
+# ------------------------------------------------------------------ settings
+settings:
+  title: '<dark_gray>Settings'
+  on: '<success>Enabled'
+  off: '<error>Disabled'
+  duel-requests:
+    slot: 10
+    material-on: LIME_DYE
+    material-off: GRAY_DYE
+    name: '<text><b>Duel Requests'
+    lore:
+      - '<muted>Allow other players to'
+      - '<muted>send you duel requests.'
+      - ''
+      - '<value>'
+  scoreboard:
+    slot: 12
+    material-on: LIME_DYE
+    material-off: GRAY_DYE
+    name: '<text><b>Scoreboard'
+    lore:
+      - '<muted>Show the sidebar.'
+      - ''
+      - '<value>'
+  spectators:
+    slot: 14
+    material-on: LIME_DYE
+    material-off: GRAY_DYE
+    name: '<text><b>Spectators'
+    lore:
+      - '<muted>Let others spectate'
+      - '<muted>your matches.'
+      - ''
+      - '<value>'
+  time:
+    slot: 16
+    material: CLOCK
+    name: '<text><b>Time of Day'
+    lore:
+      - '<muted>Only changes your view.'
+      - ''
+      - '<text>Current: <accent><value>'
+      - '<success>▶ Click to cycle'
+    names:
+      day: 'Day'
+      sunset: 'Sunset'
+      night: 'Night'
+      sunrise: 'Sunrise'
+      server: 'Server time'
+
+# ------------------------------------------------------------------ spectate
+spectate:
+  title: '<dark_gray>Live Matches'
+  empty:
+    material: BARRIER
+    name: '<muted>No matches right now'
+  match:
+    name: '<text><title>'
+    lore:
+      - '<muted><type> · <kit> <muted>· <arena>'
+      - '<text>Time <primary><duration>'
+      - '<text>Watching <primary><spectators>'
+      - ''
+    health-line: '<text><name> <error><health>❤'
+    lore-footer:
+      - ''
+      - '<success>▶ Click to spectate'
+
+# ------------------------------------------------------------------ inventory preview
+inventory-preview:
+  title: '<dark_gray><player>''s Inventory'
+  health:
+    material: GLISTERING_MELON_SLICE
+    name: '<error><b>Health'
+    lore:
+      - '<text><health>❤ <muted>of <max>❤'
+  food:
+    material: COOKED_BEEF
+    name: '<accent><b>Hunger'
+    lore:
+      - '<text><food><muted>/20'
+  potions:
+    material: SPLASH_POTION
+    name: '<primary><b>Potions'
+    lore:
+      - '<text>Left <primary><left>'
+      - '<text>Thrown <primary><used>'
+      - '<text>Accuracy <primary><accuracy>%'
+  effects:
+    material: BREWING_STAND
+    name: '<text><b>Effects'
+    line: '<text><effect> <level> <muted><time>'
+    none: '<muted>None'
+  stats:
+    material: DIAMOND_SWORD
+    name: '<text><b>Match Stats'
+    lore:
+      - '<text>Hits <primary><hits>'
+      - '<text>Longest combo <primary><combo>'
+      - '<text>Critical hits <primary><crits>'
+      - '<text>Damage dealt <primary><damage>❤'
+      - '<text>Damage taken <primary><taken>❤'
+      - '<text>Kills <primary><kills>'
+
+# ------------------------------------------------------------------ stats
+stats:
+  title: '<dark_gray><player>''s Stats'
+  overview:
+    name: '<primary><b><player>'
+    lore:
+      - '<text>Rank <division> <muted>(<elo> ELO)'
+      - '<muted><season>'
+      - ''
+      - '<text>Wins <success><wins></success> <muted>· <text>Losses <error><losses>'
+      - '<text>Win rate <primary><winrate>'
+      - '<text>Kills <primary><kills></primary> <muted>· <text>Deaths <primary><deaths>'
+      - '<text>K/D <primary><kdr>'
+      - '<text>Best streak <accent><best_streak>'
+  kit:
+    name: '<kit>'
+    lore:
+      - '<text>ELO <accent><elo></accent> <division> <muted>(peak <peak>)'
+      - '<text>Ranked <success><ranked_wins>W</success> <error><ranked_losses>L'
+      - ''
+      - '<text>Wins <success><wins></success> <muted>· <text>Losses <error><losses>'
+      - '<text>Win rate <primary><winrate>'
+      - '<text>K/D <primary><kdr></primary> <muted>(<kills>/<deaths>)'
+      - '<text>Streak <accent><streak></accent> <muted>(best <best_streak>)'
+    history:
+      - ''
+      - '<text>ELO history <muted>(last <games>)'
+      - '<accent><sparkline>'
+    no-history:
+      - ''
+      - '<muted>No ranked games this season.'
+    change-win: '<success><delta></success> <muted>vs <opponent> → <elo>'
+    change-loss: '<error><delta></error> <muted>vs <opponent> → <elo>'
+
+# ------------------------------------------------------------------ party
+party:
+  title: '<dark_gray>Party'
+  none:
+    material: BARRIER
+    name: '<error>You are not in a party'
+  split:
+    slot: 10
+    material: GOLDEN_AXE
+    name: '<primary><b>Split Teams'
+    lore:
+      - '<muted>Split the party into two'
+      - '<muted>random teams.'
+  ffa:
+    slot: 12
+    material: IRON_SWORD
+    name: '<accent><b>Free for All'
+    lore:
+      - '<muted>Everyone for themselves.'
+  duel:
+    slot: 14
+    material: SHIELD
+    name: '<text><b>Fight Another Party'
+    lore:
+      - '<muted>Challenge a party in the lobby.'
+  info:
+    slot: 16
+    material: PAPER
+    name: '<text><b>Party Info'
+    lore:
+      - '<text>Leader <primary><leader>'
+      - '<text>Members <primary><size></primary><muted>/<max>'
+  member:
+    leader-name: '<accent><player> <muted>(leader)'
+    name: '<text><player>'
+    lore: []
+    lore-kick:
+      - '<error>▶ Click to kick'
+  leave:
+    slot: 31
+    material: RED_DYE
+    name: '<error><b>Leave Party'
+  disband:
+    slot: 31
+    material: BARRIER
+    name: '<error><b>Disband Party'
+
+party-list:
+  title: '<dark_gray>Challenge a Party'
+  party:
+    name: '<text><leader><muted>''s party'
+    lore:
+      - '<text>Members <primary><size>'
+      - ''
+      - '<success>▶ Click to challenge'
+  empty:
+    material: BARRIER
+    name: '<muted>No other parties right now'

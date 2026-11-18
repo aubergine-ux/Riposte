@@ -1,0 +1,445 @@
+# ---------------------------------------------------------------------------
+#  Riposte messages. Everything here is MiniMessage: https://docs.advntr.dev/minimessage/format
+#  The palette below becomes tags you can use anywhere (messages, menus, scoreboard):
+#  <primary>, <accent>, <text>, <muted>, <success>, <error>
+#  Lists send one chat line per entry. Empty strings disable a message.
+# ---------------------------------------------------------------------------
+
+colors:
+  primary: '#ff4f64'
+  accent: '#ffb547'
+  text: '#e6e8ec'
+  muted: '#8b93a1'
+  success: '#4ade80'
+  error: '#f87171'
+
+prefix: '<dark_gray>[<gradient:#ff4f64:#ffb547>Riposte</gradient>]</dark_gray> '
+
+errors:
+  generic: '<prefix><error>Something went wrong. Try again in a moment.'
+  profile-load: '<red>Your profile could not be loaded. Please try again in a moment.'
+  player-offline: '<prefix><error><player> is not online.'
+  unknown-kit: '<prefix><error>There is no kit called <white><kit></white>.'
+  players-only: '<prefix><error>Only players can do that.'
+  hold-item: '<prefix><error>Hold an item in your main hand first.'
+  nothing-to-leave: '<prefix><muted>You are not in a queue, event or match you can leave.'
+
+lobby:
+  welcome:
+    - ''
+    - '  <gradient:#ff4f64:#ffb547><b>RIPOSTE</b></gradient> <muted>· PvP practice'
+    - '  <text>Welcome, <primary><player></primary>. Right click the <accent>swords</accent> to queue,'
+    - '  <text>or <accent>/duel <player></accent> someone. <muted>/riposte help for more.'
+    - ''
+
+setup:
+  reminder: '<prefix><accent>Riposte is not set up yet.</accent> <text>Stand where the lobby should be and run <click:suggest_command:/riposte setup><primary><u>/riposte setup</u></primary></click>.'
+  lobby: '<prefix><success>Lobby set to your position.'
+  done:
+    - '<prefix><success>Setup complete.</success> <text>Generated <primary><count></primary> arenas; copies are being pasted now.'
+    - '<prefix><text>Players can queue right away with the swords in their hotbar.'
+    - '<prefix><muted>Build your own arenas any time with <white>/arena wand</white>.'
+  nothing: '<prefix><muted>Lobby and arenas already exist. Nothing to do.'
+  names:
+    classic: '<#c9d1d9>Classic'
+    sumo: '<#5ee6a8>Sumo Ring'
+    bridge: '<#4da3ff>The Bridge'
+
+help:
+  player:
+    - '<dark_gray><st>                                                  </st>'
+    - ' <gradient:#ff4f64:#ffb547><b>RIPOSTE</b></gradient> <muted>v<version>'
+    - ' <primary>/queue</primary> <muted>[unranked|ranked] [kit]</muted> <text>· join a queue'
+    - ' <primary>/duel</primary> <muted><player> [kit]</muted> <text>· challenge someone'
+    - ' <primary>/rematch</primary> <text>· rematch your last opponent'
+    - ' <primary>/spectate</primary> <muted>[player]</muted> <text>· watch a live match'
+    - ' <primary>/party</primary> <muted>create|invite|ffa|split</muted> <text>· parties'
+    - ' <primary>/event</primary> <muted>join|leave</muted> <text>· hosted events'
+    - ' <primary>/stats</primary> <muted>[player]</muted> <text>· stats and ELO history'
+    - ' <primary>/leaderboard</primary> <muted>[kit]</muted> <text>· top players'
+    - ' <primary>/kiteditor</primary> <muted>[kit]</muted> <text>· rearrange a kit'
+    - ' <primary>/settings</primary> <text>· duel requests, scoreboard, time'
+    - '<dark_gray><st>                                                  </st>'
+  admin:
+    - '<dark_gray><st>                                                  </st>'
+    - ' <gradient:#ff4f64:#ffb547><b>RIPOSTE</b></gradient> <muted>v<version> · admin'
+    - ' <primary>/riposte setup</primary> <text>· lobby and three ready arenas'
+    - ' <primary>/riposte setlobby</primary> <text>· move the lobby here'
+    - ' <primary>/riposte reload</primary> <text>· reload configs'
+    - ' <primary>/riposte build</primary> <text>· toggle build mode'
+    - ' <primary>/riposte status</primary> <text>· matches, queues, arenas, tick time'
+    - ' <primary>/riposte season new</primary> <muted><soft|hard> <name></muted>'
+    - ' <primary>/riposte hologram</primary> <muted>create|delete|list</muted>'
+    - ' <primary>/arena</primary> <text>· arena setup <muted>(/arena for details)'
+    - ' <primary>/kit</primary> <text>· kit setup <muted>(/kit for details)'
+    - ' <primary>/event host</primary> <muted><tournament|sumo> [kit]</muted>'
+    - ' <muted>Player commands: /queue /duel /spectate /party /stats /leaderboard'
+    - '<dark_gray><st>                                                  </st>'
+  arena:
+    - '<dark_gray><st>                                                  </st>'
+    - ' <primary><b>Arena setup</b></primary>'
+    - ' <text>1. <primary>/arena wand</primary>, left and right click two corners'
+    - ' <text>2. <primary>/arena create <name></primary> <muted>(uses your selection)'
+    - ' <text>3. <primary>/arena setspawn <name> 1</primary> and <primary>2</primary> where players start'
+    - ' <text>4. <primary>/arena copies <name> <n></primary> then <primary>/arena enable <name></primary>'
+    - ' <muted>Also: list, info, tags, icon, displayname, setgoal, setregion, paste, disable, delete, tp'
+    - ' <muted>Or generate one: /arena generate <name> <classic|sumo|bridge> [copies]'
+    - '<dark_gray><st>                                                  </st>'
+  kit:
+    - '<dark_gray><st>                                                  </st>'
+    - ' <primary><b>Kit setup</b></primary>'
+    - ' <primary>/kit list</primary> <text>· all kits'
+    - ' <primary>/kit give <kit></primary> <text>· load a kit to edit it'
+    - ' <primary>/kit setinv <kit></primary> <text>· save your inventory as the kit'
+    - ' <primary>/kit seticon <kit></primary> <text>· icon from your hand'
+    - ' <primary>/kit create|delete|enable|disable|restore</primary>'
+    - ' <muted>Rules (hunger, build, rounds, win condition...) live in kits.yml.'
+    - '<dark_gray><st>                                                  </st>'
+
+admin:
+  reloaded: '<prefix><success>Configuration reloaded.'
+  lobby-set: '<prefix><success>Lobby set to your position.'
+  build-on: '<prefix><accent>Build mode on.</accent> <muted>Lobby protection is off for you.'
+  build-off: '<prefix><muted>Build mode off.'
+  status:
+    - '<prefix><text>Matches <primary><matches></primary> <muted>(<fighting> fighting, <queued> queued)'
+    - '<prefix><text>Arenas <primary><arenas></primary> <muted>(<copies> copies, <jobs> block jobs)'
+    - '<prefix><text>Kits <primary><kits></primary> <muted>· storage <storage> · <season> · <mspt> mspt'
+  season-info: '<prefix><text>Current season: <primary><season></primary> <muted>(#<id>)'
+  season-started: '<prefix><success>Started <season>.'
+  hologram-created: '<prefix><success>Hologram <white><id></white> created.'
+  hologram-exists: '<prefix><error>A hologram called <white><id></white> already exists.'
+  hologram-deleted: '<prefix><success>Hologram <white><id></white> deleted.'
+  hologram-unknown: '<prefix><error>No hologram called <white><id></white>.'
+  hologram-list: '<prefix><text>Holograms: <primary><list>'
+
+arena:
+  wand-name: '<gradient:#ff4f64:#ffb547>Arena Wand'
+  wand-lore: '<muted>Left click: corner 1 · Right click: corner 2'
+  wand-given: '<prefix><text>Left click a block for corner 1, right click for corner 2.'
+  wand-corner: '<prefix><text>Corner <primary><corner></primary> set to <muted><x>, <y>, <z></muted> <accent><size>'
+  created: '<prefix><success>Arena <white><arena></white> created.</success> <text>Next: <primary>/arena setspawn <arena> 1'
+  exists: '<prefix><error>Arena <white><arena></white> already exists.'
+  unknown: '<prefix><error>No arena called <white><arena></white>.'
+  deleted: '<prefix><success>Arena <white><arena></white> deleted.'
+  no-selection: '<prefix><error>Select two corners with <white>/arena wand</white> first.'
+  region-set: '<prefix><success>Region of <white><arena></white> set <muted>(<size>).'
+  spawn-set: '<prefix><success>Spawn <team> of <white><arena></white> set.'
+  spawn-outside: '<prefix><accent>Spawn <team> set, but it is outside the arena region.'
+  wrong-world: '<prefix><error>Spawns must be in the same world as the arena region.'
+  goal-set: '<prefix><success>Goal <team> of <white><arena></white> set to where you stand.'
+  tags-set: '<prefix><success>Tags of <white><arena></white>: <primary><tags>'
+  updated: '<prefix><success>Arena <white><arena></white> updated.'
+  incomplete: '<prefix><error>The arena needs a region and both spawns inside it.'
+  template-in-arena-world: '<prefix><error>Build arena templates in another world; the arena world only holds copies.'
+  too-large: '<prefix><error>The arena is wider than arenas.copy-spacing allows.'
+  in-use: '<prefix><error>A match is running in this arena. Try again when it ends.'
+  pasting: '<prefix><success>Pasting <copies> copies of <white><arena></white>.</success> <muted>They become available as each one finishes.'
+  generated: '<prefix><success>Generated <style> arena <white><arena></white> with <copies> copies.'
+  enabled: '<prefix><success>Arena <white><arena></white> enabled.'
+  disabled: '<prefix><muted>Arena <white><arena></white> disabled.'
+  status-enabled: '<success>enabled'
+  status-disabled: '<error>disabled'
+  list-header: '<prefix><text>Arenas <muted>(<count>)'
+  list-line: ' <primary><arena></primary> <muted>· <display> <muted>· <tags> · <free>/<copies> free · <status>'
+  info:
+    - '<prefix><text>Arena <primary><arena></primary> <muted>(<display><muted>) · <status>'
+    - '<prefix><muted>World <white><world></white> · <white><min></white> to <white><max>'
+    - '<prefix><muted>Spawns <white><spawn1></white>/<white><spawn2></white> · goals <white><goals></white> · tags <white><tags>'
+    - '<prefix><muted>Copies <white><free></white> free of <white><copies>'
+
+kit:
+  list-header: '<prefix><text>Kits <muted>(<count>)'
+  list-line: ' <primary><id></primary> <muted>· <kit> <muted>· <mode> · arena tag <tag> · <status>'
+  created: '<prefix><success>Kit <white><kit></white> created from your inventory.</success> <muted>Edit its rules in kits.yml.'
+  exists: '<prefix><error>Kit <white><kit></white> already exists.'
+  deleted: '<prefix><success>Kit <white><kit></white> deleted.'
+  inventory-set: '<prefix><success>Saved your inventory as <kit><success>.'
+  given: '<prefix><text>Loaded <kit><text>. Change it, then <primary>/kit setinv'
+  updated: '<prefix><success>Updated <kit><success>.'
+  restored: '<prefix><success>Kit <white><kit></white> restored to its built-in defaults.'
+
+editor:
+  busy: '<prefix><error>You can only edit kits from the lobby.'
+  opened: '<prefix><text>Arrange <kit><text> in your inventory, then press <success>Save</success>.'
+  saved: '<prefix><success>Layout saved for <kit><success>.'
+  reset: '<prefix><accent>Layout reset to the default for <kit><accent>.'
+  cancelled: '<prefix><muted>Kit editor closed without saving.'
+  cursor: '<prefix><error>Put down the item you are holding first.'
+  invalid: '<prefix><error>That layout does not match the kit. Press Reset and try again.'
+
+queue:
+  joined: '<prefix><text>Queued for <primary>unranked</primary> <kit><text>.'
+  joined-ranked: '<prefix><text>Queued for <accent>ranked</accent> <kit> <muted>(<elo> ELO)'
+  left: '<prefix><muted>Left the <kit> <muted>queue.'
+  busy: '<prefix><error>You cannot queue right now.'
+  in-party: '<prefix><error>Leave your party to queue alone, or use party fights.'
+  kit-disabled: '<prefix><error><kit> <error>is disabled.'
+  not-ranked: '<prefix><error><kit> <error>has no ranked queue.'
+  ranked-locked: '<prefix><error>Ranked unlocks after <required> unranked wins <muted>(you have <wins>).'
+  no-arenas: '<prefix><error>No arena is set up for <kit><error> yet.'
+  waiting-arena: '<prefix><muted>All arenas are busy; you will be matched as soon as one frees up.'
+  action-bar: '<text>Queueing <kit> <dark_gray>·</dark_gray> <primary><time></primary> <dark_gray>·</dark_gray> <muted><count> waiting'
+  action-bar-ranked: '<accent>Ranked</accent> <kit> <dark_gray>·</dark_gray> <primary><time></primary> <dark_gray>·</dark_gray> <muted><min>-<max> ELO'
+
+duel:
+  self: '<prefix><error>You cannot duel yourself.'
+  disabled: '<prefix><error><player> is not accepting duel requests.'
+  busy: '<prefix><error><player> is busy right now.'
+  busy-self: '<prefix><error>You cannot send duels right now.'
+  cooldown: '<prefix><error>Slow down a little before sending another request.'
+  target-in-party: '<prefix><error><player> is in a party. Make a party and challenge their leader.'
+  target-not-party-leader: '<prefix><error><player> is not a party leader.'
+  random-arena: 'a random arena'
+  sent: '<prefix><text>Sent a <kit> <text>duel to <primary><player></primary> on <arena><text>.'
+  sent-party: '<prefix><text>Challenged <primary><player></primary><text>''s party to <kit><text>.'
+  received:
+    - '<dark_gray><st>                                        </st>'
+    - ' <primary><player></primary> <text>challenged you to <kit>'
+    - ' <muted>Arena: <arena> <muted>· expires in <seconds>s'
+    - ' <accept>   <deny>'
+    - '<dark_gray><st>                                        </st>'
+  received-party:
+    - '<dark_gray><st>                                        </st>'
+    - ' <primary><player></primary><text>''s party (<size>) challenged yours to <kit>'
+    - ' <muted>Arena: <arena> <muted>· expires in <seconds>s'
+    - ' <accept>   <deny>'
+    - '<dark_gray><st>                                        </st>'
+  accept-button: '<success><b>[ACCEPT]</b>'
+  accept-hover: '<success>Click to accept'
+  deny-button: '<error><b>[DENY]</b>'
+  deny-hover: '<error>Click to deny'
+  accepted: '<prefix><success><player> accepted your duel.'
+  denied-sender: '<prefix><error><player> denied your duel.'
+  denied-target: '<prefix><muted>Denied <player>''s duel.'
+  expired-sender: '<prefix><muted>Your duel request to <player> expired.'
+  no-request: '<prefix><error>You have no duel request from <player>.'
+  no-longer-valid: '<prefix><error>That challenge is no longer valid.'
+  no-free-arena: '<prefix><error>Every arena for that kit is busy. Try again in a moment.'
+  no-rematch: '<prefix><error>You have no rematch available.'
+
+match:
+  start:
+    - ''
+    - ' <text>Fighting <primary><opponent></primary> <muted>·</muted> <kit> <muted>·</muted> <arena>'
+    - ''
+  start-ranked:
+    - ''
+    - ' <accent>Ranked</accent> <text>vs <primary><opponent></primary> <muted>(<elo> ELO)</muted> <muted>·</muted> <kit> <muted>·</muted> <arena>'
+    - ''
+  combo: '<accent><b><combo> COMBO</b>'
+  time-limit: '<prefix><muted>Time limit reached. The match is a draw.'
+  goal: '<prefix><primary><player></primary> <text>scored! <muted>(<score>)'
+  round-won: '<prefix><text>Round <round> to <primary><team></primary> <muted>(<score>)'
+  rematch-offer: '<prefix><text>Good fight. <click:run_command:/rematch><hover:show_text:''<success>Click to rematch <opponent>''><success><b>[REMATCH]</b></hover></click> <muted>(<seconds>s)'
+  death:
+    killed: '<error><victim></error> <muted>was slain by</muted> <success><killer></success> <muted>(<health>❤)'
+    void: '<error><victim></error> <muted>fell into the void.'
+    void-killed: '<error><victim></error> <muted>was knocked into the void by</muted> <success><killer></success>'
+    sumo: '<error><victim></error> <muted>was knocked off the platform.'
+    generic: '<error><victim></error> <muted>died.'
+    disconnect: '<error><victim></error> <muted>disconnected.'
+
+summary:
+  header: '<dark_gray><st>                                                  </st>'
+  footer: '<dark_gray><st>                                                  </st>'
+  title: ' <gradient:#ff4f64:#ffb547><b>MATCH SUMMARY</b></gradient> <muted>· <type> · <kit> <muted>· <duration>'
+  winner: ' <text>Winner <success><names></success> <muted><score>'
+  draw: ' <muted>The match ended in a draw.'
+  icon-win: '<success>✔'
+  icon-loss: '<error>✘'
+  player: ' <icon> <white><name></white> <error><health>❤</error> <muted>· <hits> hits · <combo> combo · <damage>❤ dealt</muted><potions><elo>'
+  player-bridge: ' <icon> <white><name></white> <muted>· <goals> goals · <kills> kills · <hits> hits</muted>'
+  potions: '<muted> · <count> pots (<accuracy>%)'
+  elo-gain: ' <success><delta> ELO</success>'
+  elo-loss: ' <error><delta> ELO</error>'
+  hint: ' <muted>Click a name to view their inventory.'
+  hover: '<text>View <primary><name></primary><text>''s inventory'
+  expired: '<prefix><error>That inventory preview has expired.'
+  types:
+    unranked: 'Unranked'
+    ranked: 'Ranked'
+    duel: 'Duel'
+    party_split: 'Party Split'
+    party_vs_party: 'Party vs Party'
+    ffa: 'FFA'
+    event: 'Event'
+
+titles:
+  countdown:
+    title: '<primary><b><seconds>'
+    subtitle: '<muted>Round <round>'
+    fade-in: 0
+    stay: 22
+    fade-out: 0
+  fight:
+    title: '<gradient:#ff4f64:#ffb547><b>FIGHT!'
+    subtitle: ''
+    fade-in: 0
+    stay: 15
+    fade-out: 8
+  victory:
+    title: '<success><b>VICTORY'
+    subtitle: '<text>You won the match'
+    fade-in: 2
+    stay: 50
+    fade-out: 10
+  defeat:
+    title: '<error><b>DEFEAT'
+    subtitle: '<text><winner> won the match'
+    fade-in: 2
+    stay: 50
+    fade-out: 10
+  draw:
+    title: '<accent><b>DRAW'
+    subtitle: ''
+    fade-in: 2
+    stay: 40
+    fade-out: 10
+  spectator-winner:
+    title: '<primary><b><winner>'
+    subtitle: '<text>wins the match'
+    fade-in: 2
+    stay: 40
+    fade-out: 10
+  round-won:
+    title: '<primary><b><team>'
+    subtitle: '<text>wins the round <muted>(<score>)'
+    fade-in: 2
+    stay: 30
+    fade-out: 8
+  goal:
+    title: '<primary><b><player> scored!'
+    subtitle: '<text><score>'
+    fade-in: 2
+    stay: 30
+    fade-out: 8
+  promoted:
+    title: '<accent><b>PROMOTED'
+    subtitle: '<division>'
+    fade-in: 5
+    stay: 50
+    fade-out: 10
+  event-winner:
+    title: '<gradient:#ff4f64:#ffb547><b>CHAMPION'
+    subtitle: '<text>You won the <event>'
+    fade-in: 5
+    stay: 60
+    fade-out: 10
+
+ranked:
+  elo-gain: '<prefix><success>+<delta> ELO</success> <muted>in</muted> <kit> <muted>· now <white><elo></white> <division>'
+  elo-loss: '<prefix><error>-<delta> ELO</error> <muted>in</muted> <kit> <muted>· now <white><elo></white> <division>'
+  promoted: '<prefix><accent>Promoted to <division><accent>!'
+  demoted: '<prefix><muted>Dropped to <division><muted>.'
+  season-started: '<prefix><accent><season> has begun.</accent> <text>Ratings have been reset. Good luck.'
+
+leaderboard:
+  global-name: '<gradient:#ff4f64:#ffb547>Global'
+  rank-colors:
+    '1': '<#ffd166>'
+    '2': '<#d0d6de>'
+    '3': '<#c08457>'
+    '4': '<muted>'
+  chat-header:
+    - '<dark_gray><st>                                        </st>'
+    - ' <board> <text>Leaderboard <muted>· <season>'
+  chat-line: ' <rank_color><rank>.</rank_color> <white><name></white> <muted>-</muted> <accent><elo></accent> <division> <muted>(<wins>W <losses>L)'
+  chat-empty: ' <muted>No ranked games yet this season.'
+  chat-footer: '<dark_gray><st>                                        </st>'
+
+hologram:
+  title: '<board> <text><b>Leaderboard'
+  line: '<rank_color><rank>.</rank_color> <white><name></white> <dark_gray>-</dark_gray> <division_color><elo>'
+  empty: '<dark_gray><rank>. ---'
+  footer: '<muted><season>'
+
+stats:
+  not-found: '<prefix><error>No stats found for <player>.'
+
+spectate:
+  started: '<prefix><text>Spectating <primary><match></primary> <muted>·</muted> <kit><muted>. Use the hotbar to switch players or leave.'
+  notify: '<prefix><muted><player> is now spectating.'
+  now-watching: '<text>Watching <primary><player>'
+  in-match: '<prefix><error>You cannot spectate while fighting.'
+  ended: '<prefix><error>That match just ended.'
+  disabled: '<prefix><error>Someone in that match has spectators turned off.'
+  not-in-match: '<prefix><error><player> is not in a match.'
+
+party:
+  help:
+    - '<prefix><text>Parties: <primary>/party create</primary>, <primary>/party invite <player></primary>, <primary>/party accept <leader></primary>'
+    - '<prefix><text>Leaders: <primary>/party ffa</primary>, <primary>/party split</primary>, <primary>/duel <leader></primary> <muted>to fight another party'
+  created: '<prefix><success>Party created.</success> <text>Invite players with <primary>/party invite <player>'
+  already-in: '<prefix><error>You are already in a party.'
+  busy: '<prefix><error>You can only do that from the lobby.'
+  not-in: '<prefix><error>You are not in a party.'
+  not-leader: '<prefix><error>Only the party leader can do that.'
+  invite-self: '<prefix><error>You cannot invite yourself.'
+  target-in-party: '<prefix><error><player> is already in a party.'
+  full: '<prefix><error>The party is full <muted>(max <max>).'
+  invite-sent: '<prefix><text>Invited <primary><player></primary>.'
+  invite-received:
+    - '<dark_gray><st>                                        </st>'
+    - ' <primary><player></primary> <text>invited you to their party <muted>(<size> players)'
+    - ' <join> <muted>expires in <seconds>s'
+    - '<dark_gray><st>                                        </st>'
+  join-button: '<success><b>[JOIN PARTY]</b>'
+  join-hover: '<success>Click to join'
+  no-invite: '<prefix><error>You have no party invite from <player>.'
+  joined: '<prefix><primary><player></primary> <text>joined the party <muted>(<size>)'
+  left: '<prefix><muted><player> left the party <muted>(<size>)'
+  you-left: '<prefix><muted>You left the party.'
+  kicked: '<prefix><muted><player> was kicked from the party.'
+  you-were-kicked: '<prefix><error>You were kicked from the party.'
+  not-member: '<prefix><error><player> is not in your party.'
+  new-leader: '<prefix><text><primary><player></primary> is now the party leader.'
+  disbanded: '<prefix><muted>The party was disbanded.'
+  info: '<prefix><text>Leader <primary><leader></primary> <muted>· <size>/<max> · <members>'
+  chat: '<dark_gray>[<accent>Party</accent>]</dark_gray> <primary><player></primary><dark_gray>:</dark_gray> <text><message>'
+  too-small: '<prefix><error>You need at least two online members for a party fight.'
+  members-busy: '<prefix><error>Every party member has to be in the lobby.'
+  ffa-start: '<prefix><text>Starting a party FFA with <kit><text>.'
+  split-start: '<prefix><text>Splitting the party into two teams for <kit><text>.'
+
+events:
+  names:
+    tournament: '<gradient:#ff4f64:#ffb547>Tournament'
+    sumo: '<#5ee6a8>Sumo Event'
+  announce:
+    - '<dark_gray><st>                                        </st>'
+    - ' <primary><host></primary> <text>is hosting a <event> <muted>·</muted> <kit>'
+    - ' <muted>Starts in <seconds>s · <players> joined'
+    - ' <join>'
+    - '<dark_gray><st>                                        </st>'
+  join-button: '<success><b>[CLICK TO JOIN]</b>'
+  join-hover: '<success>Join the event'
+  help: '<prefix><text>Events: <primary>/event join</primary>, <primary>/event leave</primary>, hosts: <primary>/event host <tournament|sumo> [kit]</primary>, <primary>/event start</primary>, <primary>/event cancel'
+  none: '<prefix><error>There is no event right now.'
+  already-running: '<prefix><error>An event is already running.'
+  started: '<prefix><error>That event has already started.'
+  already-joined: '<prefix><error>You already joined.'
+  not-joined: '<prefix><error>You are not in the event.'
+  busy: '<prefix><error>Join from the lobby.'
+  in-party: '<prefix><error>Leave your party to join events.'
+  full: '<prefix><error>The event is full.'
+  joined: '<prefix><primary><player></primary> <text>joined <muted>(<players>/<max>)'
+  left: '<prefix><muted>You left the event.'
+  starting-in: '<prefix><text>Event starts in <primary><seconds></primary>...'
+  not-enough: '<prefix><muted>The event was cancelled: it needs at least <min> players.'
+  cancelled: '<prefix><muted>The event was cancelled.'
+  started-broadcast: '<prefix><event> <text>started with <primary><players></primary> players <muted>(<rounds> rounds)'
+  round: 'Round <round>'
+  semi-final: 'Semi-finals'
+  final: 'Final'
+  round-header: '<prefix><accent><b><round_name>'
+  pairing: '<prefix><text><primary><first></primary> <muted>vs</muted> <primary><second>'
+  bye: '<prefix><muted><player> advances with a bye.'
+  result: '<prefix><success><winner></success> <text>beat <error><loser>'
+  eliminated: '<prefix><muted>You were eliminated. Thanks for playing!'
+  winner: '<prefix><gradient:#ff4f64:#ffb547><b><player> won the <event>!</b></gradient>'
+
+scoreboard:
+  ranked: 'Ranked'
+  unranked: 'Unranked'
+  health-label: '<red>❤'

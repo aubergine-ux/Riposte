@@ -1,0 +1,45 @@
+# Ranked divisions. Each tier starts at min-elo and can be split into sub-divisions
+# (III, II, I) spread evenly up to the next tier. color is any MiniMessage color tag.
+divisions:
+  bronze:
+    name: Bronze
+    min-elo: 0
+    color: '<#c08457>'
+    icon: COPPER_INGOT
+    sub-divisions: 3
+  silver:
+    name: Silver
+    min-elo: 900
+    color: '<#c9d1d9>'
+    icon: IRON_INGOT
+    sub-divisions: 3
+  gold:
+    name: Gold
+    min-elo: 1100
+    color: '<#ffd166>'
+    icon: GOLD_INGOT
+    sub-divisions: 3
+  platinum:
+    name: Platinum
+    min-elo: 1300
+    color: '<#5eead4>'
+    icon: PRISMARINE_CRYSTALS
+    sub-divisions: 3
+  diamond:
+    name: Diamond
+    min-elo: 1500
+    color: '<#60a5fa>'
+    icon: DIAMOND
+    sub-divisions: 3
+  master:
+    name: Master
+    min-elo: 1750
+    color: '<#c084fc>'
+    icon: AMETHYST_SHARD
+    sub-divisions: 1
+  champion:
+    name: Champion
+    min-elo: 2000
+    color: '<gradient:#ff4f64:#ffb547>'
+    icon: NETHERITE_INGOT
+    sub-divisions: 1

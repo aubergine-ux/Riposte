@@ -1,0 +1,40 @@
+name: Riposte
+version: '${version}'
+main: io.github.aubergineux.riposte.RipostePlugin
+api-version: '26.3'
+description: PvP practice for Paper. Duels, kits, ranked queues, arenas and stats.
+author: aubergine-ux
+website: https://github.com/aubergine-ux/Riposte
+load: POSTWORLD
+
+permissions:
+  riposte.admin:
+    description: Arena, kit, season and hologram setup, plus /riposte reload.
+    default: op
+    children:
+      riposte.event.host: true
+      riposte.spectate.bypass: true
+      riposte.duel.bypass: true
+      riposte.ranked.bypass: true
+      riposte.lobby.fly: true
+  riposte.spectate:
+    description: Spectate live matches.
+    default: true
+  riposte.party:
+    description: Create and join parties.
+    default: true
+  riposte.event.host:
+    description: Host tournaments and sumo events.
+    default: op
+  riposte.spectate.bypass:
+    description: Spectate even when players have spectators turned off.
+    default: op
+  riposte.duel.bypass:
+    description: Send duel requests to players who turned them off.
+    default: op
+  riposte.ranked.bypass:
+    description: Skip the unranked wins requirement for ranked queues.
+    default: op
+  riposte.lobby.fly:
+    description: Fly in the lobby when lobby.allow-flight is on.
+    default: op

@@ -1,0 +1,100 @@
+# ---------------------------------------------------------------------------
+#  Riposte configuration
+#  Messages live in messages.yml, menus and hotbar items in menus.yml,
+#  the sidebar in scoreboard.yml and ranks in divisions.yml.
+#  Run /riposte reload after editing.
+# ---------------------------------------------------------------------------
+
+storage:
+  # sqlite works out of the box. Use mysql (or mariadb) to share stats across a network.
+  type: sqlite
+  table-prefix: riposte_
+  sqlite:
+    file: riposte.db
+  mysql:
+    host: localhost
+    port: 3306
+    database: riposte
+    username: root
+    password: ''
+    pool-size: 6
+    parameters: useSSL=false&allowPublicKeyRetrieval=true&characterEncoding=utf8
+
+match:
+  countdown-seconds: 5
+  # time spent in the arena after the last hit, before everyone returns to the lobby
+  end-delay-seconds: 4
+  # matches still going after this long end in a draw (0 = never)
+  max-duration-minutes: 15
+  # how long the rematch button stays valid
+  rematch-seconds: 30
+  # falling this many blocks below the arena floor counts as a void death
+  void-depth: 6
+  # how long the clickable inventory previews in the match summary keep working
+  inventory-preview-minutes: 10
+  combo-action-bar:
+    enabled: true
+    minimum: 3
+
+queue:
+  # ranked search range in ELO: starts at start, grows by growth every interval-seconds, up to max
+  ranked-range:
+    start: 50
+    growth: 25
+    interval-seconds: 5
+    max: 500
+  # unranked wins needed (across all kits) before ranked unlocks
+  ranked-required-unranked-wins: 0
+
+ranked:
+  starting-elo: 1000
+  k-factor: 32
+  # higher K for a player's first games in a kit so new players find their level quickly
+  provisional-k-factor: 48
+  provisional-games: 10
+  elo-floor: 100
+  # on a soft season reset, ratings keep this share of their distance from starting-elo
+  season-soft-reset-factor: 0.5
+  leaderboard-refresh-seconds: 60
+  leaderboard-size: 10
+
+duels:
+  request-expire-seconds: 30
+  request-cooldown-seconds: 3
+  # let the challenger pick an arena after picking a kit
+  choose-arena: true
+
+party:
+  max-size: 8
+  invite-expire-seconds: 60
+
+events:
+  join-seconds: 60
+  min-players: 4
+  max-players: 64
+
+arenas:
+  # void worlds Riposte creates for arena copies and generated templates
+  world: riposte_arenas
+  template-world: riposte_templates
+  # distance between copies; arenas must be smaller than this
+  copy-spacing: 512
+  # block budget per tick for pasting copies and resetting arenas
+  paste-blocks-per-tick: 40000
+  reset-blocks-per-tick: 20000
+
+setup:
+  # copies created for each built-in arena by /riposte setup
+  copies:
+    classic: 4
+    sumo: 2
+    bridge: 2
+
+lobby:
+  teleport-on-join: true
+  void-teleport: true
+  hide-players: false
+  allow-flight: false
+
+scoreboard:
+  update-ticks: 10
