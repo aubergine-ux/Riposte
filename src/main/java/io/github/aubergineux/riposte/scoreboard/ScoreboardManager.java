@@ -15,7 +15,6 @@ import io.github.aubergineux.riposte.ranked.Division;
 import io.github.aubergineux.riposte.util.Text;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
-import net.kyori.adventure.text.minimessage.tag.resolver.TagResolver;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
@@ -48,6 +47,7 @@ public final class ScoreboardManager implements Listener {
 
     public void reload() {
         yaml = file.load();
+        parsed.clear();
         if (task != null) {
             task.cancel();
         }
@@ -113,7 +113,7 @@ public final class ScoreboardManager implements Listener {
             return;
         }
         String section = section(profile, match, player);
-        List<TagResolver> resolvers = new ArrayList<>();
+        Placeholders resolvers = new Placeholders();
         common(resolvers, player, profile);
         if (match != null) {
             matchPlaceholders(resolvers, match, player);
@@ -126,17 +126,34 @@ public final class ScoreboardManager implements Listener {
         }
         Party party = plugin.parties().partyOf(player);
         if (party != null) {
-            resolvers.add(Text.p("party_leader", party.leaderName()));
-            resolvers.add(Text.p("party_size", party.size()));
-            resolvers.add(Text.p("party_max", plugin.settings().partyMaxSize));
+            resolvers.p("party_leader", party.leaderName());
+            resolvers.p("party_size", party.size());
+            resolvers.p("party_max", plugin.settings().partyMaxSize);
         }
-        TagResolver all = TagResolver.resolver(resolvers);
-        sidebar.title(plugin.messages().format(yaml.getString("title", "<b>RIPOSTE"), all));
-        List<Component> lines = new ArrayList<>();
-        for (String line : yaml.getStringList("boards." + section)) {
-            lines.add(plugin.messages().format(line, all));
+        sidebar.title(parse(resolvers.apply(yaml.getString("title", "<b>RIPOSTE"))));
+        List<String> templates = yaml.getStringList("boards." + section);
+        List<Component> lines = new ArrayList<>(templates.size());
+        for (String line : templates) {
+            lines.add(parse(resolvers.apply(line)));
         }
         sidebar.lines(lines);
+    }
+
+    /** Parsed lines are cached by their final text; most lines are identical across players. */
+    private final Map<String, Component> parsed = new java.util.LinkedHashMap<>(512, 0.75f, true) {
+        @Override
+        protected boolean removeEldestEntry(Map.Entry<String, Component> eldest) {
+            return size() > 4096;
+        }
+    };
+
+    private Component parse(String text) {
+        Component cached = parsed.get(text);
+        if (cached == null) {
+            cached = plugin.messages().format(text);
+            parsed.put(text, cached);
+        }
+        return cached;
     }
 
     private String section(PlayerProfile profile, Match match, Player player) {
@@ -160,59 +177,59 @@ public final class ScoreboardManager implements Listener {
         };
     }
 
-    private void common(List<TagResolver> r, Player player, PlayerProfile profile) {
-        r.add(Text.p("online", Bukkit.getOnlinePlayers().size()));
-        r.add(Text.p("in_queue", plugin.queues().totalQueued()));
-        r.add(Text.p("in_fight", plugin.matches().playersInMatches()));
-        r.add(Text.p("player", player.getName()));
-        r.add(Text.p("ping", player.getPing()));
+    private void common(Placeholders r, Player player, PlayerProfile profile) {
+        r.p("online", Bukkit.getOnlinePlayers().size());
+        r.p("in_queue", plugin.queues().totalQueued());
+        r.p("in_fight", plugin.matches().playersInMatches());
+        r.p("player", player.getName());
+        r.p("ping", player.getPing());
         int global = plugin.ranked().globalElo(profile);
         Division division = plugin.ranked().division(global);
-        r.add(Text.p("global_elo", global));
-        r.add(Text.mm("division", division.formatted()));
-        r.add(Text.p("season", plugin.ranked().season().name()));
+        r.p("global_elo", global);
+        r.mm("division", division.formatted());
+        r.p("season", plugin.ranked().season().name());
         int wins = 0;
         int losses = 0;
         for (var stats : profile.allStats().values()) {
             wins += stats.wins;
             losses += stats.losses;
         }
-        r.add(Text.p("wins", wins));
-        r.add(Text.p("losses", losses));
-        r.add(Text.mm("server", yaml.getString("server-name", "<gray>play.example.net")));
+        r.p("wins", wins);
+        r.p("losses", losses);
+        r.mm("server", yaml.getString("server-name", "<gray>play.example.net"));
     }
 
-    private void queuePlaceholders(List<TagResolver> r, Player player) {
+    private void queuePlaceholders(Placeholders r, Player player) {
         QueueManager.Ticket ticket = plugin.queues().ticket(player);
         if (ticket == null) {
             return;
         }
-        r.add(Text.mm("kit", ticket.kit().displayName()));
-        r.add(Text.p("queue_type", plugin.messages().raw(ticket.ranked() ? "scoreboard.ranked" : "scoreboard.unranked")));
-        r.add(Text.p("queue_time", Text.formatDuration(System.currentTimeMillis() - ticket.joinedAt())));
-        r.add(Text.p("elo", ticket.elo()));
+        r.mm("kit", ticket.kit().displayName());
+        r.p("queue_type", plugin.messages().raw(ticket.ranked() ? "scoreboard.ranked" : "scoreboard.unranked"));
+        r.p("queue_time", Text.formatDuration(System.currentTimeMillis() - ticket.joinedAt()));
+        r.p("elo", ticket.elo());
     }
 
-    private void eventPlaceholders(List<TagResolver> r) {
+    private void eventPlaceholders(Placeholders r) {
         EventManager.Event event = plugin.events().current();
         if (event == null) {
-            r.add(Text.p("event_players", 0));
+            r.p("event_players", 0);
             return;
         }
-        r.add(Text.mm("event", event.displayName()));
-        r.add(Text.mm("event_kit", event.kit().displayName()));
-        r.add(Text.p("event_players", event.players().size()));
-        r.add(Text.p("event_starts", event.state() == EventManager.State.WAITING ? event.countdown() + "s" : "-"));
-        r.add(Text.p("event_round", event.bracket() == null ? "-" : event.bracket().round() + "/" + event.bracket().totalRounds()));
+        r.mm("event", event.displayName());
+        r.mm("event_kit", event.kit().displayName());
+        r.p("event_players", event.players().size());
+        r.p("event_starts", event.state() == EventManager.State.WAITING ? event.countdown() + "s" : "-");
+        r.p("event_round", event.bracket() == null ? "-" : event.bracket().round() + "/" + event.bracket().totalRounds());
     }
 
-    private void matchPlaceholders(List<TagResolver> r, Match match, Player player) {
-        r.add(Text.mm("kit", match.kit().displayName()));
-        r.add(Text.mm("arena", match.arena().arena().displayName()));
-        r.add(Text.p("duration", Text.formatDuration(match.duration())));
-        r.add(Text.p("round", match.round()));
-        r.add(Text.p("spectators", match.spectators().size()));
-        r.add(Text.p("target", match.kit().rules().winCondition == KitRules.WinCondition.BOXING ? match.kit().rules().boxingHits : match.kit().rules().roundsToWin));
+    private void matchPlaceholders(Placeholders r, Match match, Player player) {
+        r.mm("kit", match.kit().displayName());
+        r.mm("arena", match.arena().arena().displayName());
+        r.p("duration", Text.formatDuration(match.duration()));
+        r.p("round", match.round());
+        r.p("spectators", match.spectators().size());
+        r.p("target", match.kit().rules().winCondition == KitRules.WinCondition.BOXING ? match.kit().rules().boxingHits : match.kit().rules().roundsToWin);
         Participant self = match.participant(player.getUniqueId());
         if (match.isDuel()) {
             Participant first = self != null ? self : match.teams().get(0).leader();
@@ -223,11 +240,11 @@ public final class ScoreboardManager implements Listener {
             fighter(r, "p1_", match.teams().get(0).leader());
             fighter(r, "p2_", match.teams().get(1).leader());
             int diff = first.stats().hits - (second == null ? 0 : second.stats().hits);
-            r.add(Text.mm("hit_diff", diff > 0 ? "<green>+" + diff : diff < 0 ? "<red>" + diff : "<gray>0"));
+            r.mm("hit_diff", diff > 0 ? "<green>+" + diff : diff < 0 ? "<red>" + diff : "<gray>0");
         } else if (self != null) {
-            r.add(Text.p("hits", self.stats().hits));
-            r.add(Text.p("combo", self.stats().combo));
-            r.add(Text.p("kills", self.stats().kills));
+            r.p("hits", self.stats().hits);
+            r.p("combo", self.stats().combo);
+            r.p("kills", self.stats().kills);
         }
         int alive = 0;
         for (Participant p : match.participants()) {
@@ -235,31 +252,31 @@ public final class ScoreboardManager implements Listener {
                 alive++;
             }
         }
-        r.add(Text.p("alive", alive));
-        r.add(Text.p("total", match.participants().size()));
+        r.p("alive", alive);
+        r.p("total", match.participants().size());
         if (match.teams().size() >= 2) {
             MatchTeam own = self != null ? self.team() : match.teams().get(0);
             MatchTeam other = match.teams().get(own.index() == 0 ? 1 : 0);
-            r.add(Text.p("team_alive", own.aliveCount()));
-            r.add(Text.p("team_size", own.members().size()));
-            r.add(Text.p("enemy_alive", other.aliveCount()));
-            r.add(Text.p("enemy_size", other.members().size()));
-            r.add(Text.p("team_score", own.score()));
-            r.add(Text.p("enemy_score", other.score()));
-            r.add(Text.p("red_score", match.teams().get(0).score()));
-            r.add(Text.p("blue_score", match.teams().get(1).score()));
+            r.p("team_alive", own.aliveCount());
+            r.p("team_size", own.members().size());
+            r.p("enemy_alive", other.aliveCount());
+            r.p("enemy_size", other.members().size());
+            r.p("team_score", own.score());
+            r.p("enemy_score", other.score());
+            r.p("red_score", match.teams().get(0).score());
+            r.p("blue_score", match.teams().get(1).score());
         }
     }
 
-    private void fighter(List<TagResolver> r, String prefix, Participant p) {
+    private void fighter(Placeholders r, String prefix, Participant p) {
         Player player = p == null ? null : p.player();
-        r.add(Text.p(prefix + "name", p == null ? "-" : p.name()));
-        r.add(Text.p(prefix + "health", player == null || !p.alive() ? "0" : Text.hearts(player.getHealth())));
-        r.add(Text.p(prefix + "ping", player == null ? 0 : player.getPing()));
-        r.add(Text.p(prefix + "hits", p == null ? 0 : p.stats().hits));
-        r.add(Text.p(prefix + "combo", p == null ? 0 : p.stats().combo));
-        r.add(Text.p(prefix + "pots", p == null ? 0 : potions(player)));
-        r.add(Text.p(prefix + "goals", p == null ? 0 : p.team().score()));
+        r.p(prefix + "name", p == null ? "-" : p.name());
+        r.p(prefix + "health", player == null || !p.alive() ? "0" : Text.hearts(player.getHealth()));
+        r.p(prefix + "ping", player == null ? 0 : player.getPing());
+        r.p(prefix + "hits", p == null ? 0 : p.stats().hits);
+        r.p(prefix + "combo", p == null ? 0 : p.stats().combo);
+        r.p(prefix + "pots", p == null ? 0 : potions(player));
+        r.p(prefix + "goals", p == null ? 0 : p.team().score());
     }
 
     private static int potions(Player player) {
