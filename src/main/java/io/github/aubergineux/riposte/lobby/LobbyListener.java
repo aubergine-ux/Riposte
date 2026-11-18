@@ -78,7 +78,11 @@ public final class LobbyListener implements Listener {
         if (event.getHand() != EquipmentSlot.HAND) {
             return;
         }
-        if (event.getAction() == Action.PHYSICAL) {
+        // right click only: left clicks fire on every arm swing
+        if (event.getAction() != Action.RIGHT_CLICK_AIR && event.getAction() != Action.RIGHT_CLICK_BLOCK) {
+            if (plugin.lobby().actionOf(event.getItem()) != null) {
+                event.setCancelled(true);
+            }
             return;
         }
         ItemStack item = event.getItem();
