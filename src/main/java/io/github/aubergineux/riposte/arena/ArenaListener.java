@@ -148,6 +148,14 @@ public final class ArenaListener implements Listener {
         }
     }
 
+    @EventHandler(priority = EventPriority.LOWEST, ignoreCancelled = true)
+    public void onWandBreak(BlockBreakEvent event) {
+        // creative mode would otherwise break the block the corner was selected on
+        if (Items.tagOf(event.getPlayer().getInventory().getItemInMainHand(), wandKey) != null) {
+            event.setCancelled(true);
+        }
+    }
+
     @EventHandler(priority = EventPriority.HIGH, ignoreCancelled = true)
     public void onBreak(BlockBreakEvent event) {
         Player player = event.getPlayer();
