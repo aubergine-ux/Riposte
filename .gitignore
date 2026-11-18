@@ -37,7 +37,7 @@ test-server/
 tools/bots/node_modules/
 tools/bots/out/
 
-# AI tool files and personal notes
+# Local tool files and personal notes
 CLAUDE.md
 CLAUDE.local.md
 .claude/
