@@ -29,7 +29,7 @@ lobby:
     - ''
     - '  <gradient:#ff4f64:#ffb547><b>RIPOSTE</b></gradient> <muted>· PvP practice'
     - '  <text>Welcome, <primary><player></primary>. Right click the <accent>swords</accent> to queue,'
-    - '  <text>or <accent>/duel <player></accent> someone. <muted>/riposte help for more.'
+    - '  <text>or <accent>/duel \<name></accent> someone. <muted>/riposte help for more.'
     - ''
 
 setup:
