@@ -168,7 +168,6 @@ public final class DefaultKits {
         kit.rules().arenaTag = "sumo";
         kit.rules().fallDamage = false;
         kit.rules().roundsToWin = 1;
-        kit.effects().add(new PotionEffect(PotionEffectType.RESISTANCE, PotionEffect.INFINITE_DURATION, 4, false, false));
         return kit;
     }
 

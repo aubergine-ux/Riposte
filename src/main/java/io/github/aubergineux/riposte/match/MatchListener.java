@@ -131,8 +131,14 @@ public final class MatchListener implements Listener {
         }
         if (rules.damageDisabled()) {
             if (event instanceof EntityDamageByEntityEvent) {
-                // keep the knockback, drop the damage
-                event.setDamage(0);
+                // a zero damage hit gives no knockback and no hit delay, so deal a sliver and heal it right back
+                event.setDamage(0.01);
+                Bukkit.getScheduler().runTask(plugin, () -> {
+                    var max = victim.getAttribute(Attribute.MAX_HEALTH);
+                    if (victim.isValid() && !victim.isDead()) {
+                        victim.setHealth(max == null ? 20 : max.getValue());
+                    }
+                });
             } else if (event.getCause() != EntityDamageEvent.DamageCause.VOID) {
                 event.setCancelled(true);
             }
@@ -180,7 +186,7 @@ public final class MatchListener implements Listener {
         if (a == null || v == null) {
             return;
         }
-        double dealt = Math.min(event.getFinalDamage(), victim.getHealth());
+        double dealt = match.kit().rules().damageDisabled() ? 0 : Math.min(event.getFinalDamage(), victim.getHealth());
         a.stats().landHit(dealt);
         if (event.isCritical()) {
             a.stats().criticalHits++;
