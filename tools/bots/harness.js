@@ -175,6 +175,28 @@ async function run(name, action, args) {
     case 'sidebar': log(name, `SIDEBAR ${sidebar(bot)}`); break;
     case 'pos': log(name, `POS ${fmtPos(bot)} hp=${bot.health} food=${bot.food}`); break;
     case 'fight': startFight(name, args[0], { cps: args[1] ? parseFloat(args[1]) : 0 }); break;
+    case 'brawl': {
+      // fight whichever other player is closest (in a match that is always the opponent)
+      stopFight(name);
+      let lastHit = 0;
+      const cps = args[0] ? parseFloat(args[0]) : 2;
+      fights[name] = setInterval(() => {
+        if (!bot.entity) return;
+        let best = null;
+        let bestDist = 64;
+        for (const p of Object.values(bot.players)) {
+          if (!p.entity || p.username === bot.username) continue;
+          const d = bot.entity.position.distanceTo(p.entity.position);
+          if (d < bestDist) { best = p.entity; bestDist = d; }
+        }
+        if (!best) { bot.clearControlStates(); return; }
+        bot.lookAt(best.position.offset(0, best.height * 0.85, 0), true);
+        bot.setControlState('forward', bestDist > 2.6);
+        bot.setControlState('sprint', bestDist > 2.6);
+        if (bestDist < 3.4 && Date.now() - lastHit > 1000 / cps) { bot.attack(best); lastHit = Date.now(); }
+      }, 50);
+      break;
+    }
     case 'stop': stopFight(name); break;
     case 'control': bot.setControlState(args[0], args[1] === 'on'); break;
     case 'look': bot.look(parseFloat(args[0]) * Math.PI / 180, parseFloat(args[1] || '0') * Math.PI / 180, true); break;
