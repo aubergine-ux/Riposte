@@ -28,10 +28,12 @@ public final class QueueManager {
     private final Map<String, Map<UUID, Ticket>> ranked = new HashMap<>();
     private final Map<UUID, Ticket> tickets = new HashMap<>();
     private long lastNoArenaWarning;
+    private int ticks;
+    private int startsLeft;
 
     public QueueManager(RipostePlugin plugin) {
         this.plugin = plugin;
-        Bukkit.getScheduler().runTaskTimer(plugin, this::tick, 20L, 20L);
+        Bukkit.getScheduler().runTaskTimer(plugin, this::tick, 5L, 5L);
     }
 
     private Matchmaker matchmaker() {
@@ -134,11 +136,16 @@ public final class QueueManager {
         }
     }
 
+    /** Runs every 5 ticks. Match starts are capped per run so a burst of pairs never lands in one tick. */
     private void tick() {
         long now = System.currentTimeMillis();
         Matchmaker matchmaker = matchmaker();
+        startsLeft = plugin.settings().maxMatchStartsPerTick;
         matchQueues(unranked, false, matchmaker, now);
         matchQueues(ranked, true, matchmaker, now);
+        if (++ticks % 4 != 0) {
+            return;
+        }
         for (Ticket ticket : tickets.values()) {
             Player player = Bukkit.getPlayer(ticket.player());
             if (player == null) {
@@ -169,6 +176,9 @@ public final class QueueManager {
             }
             List<Matchmaker.Pair> pairs = isRanked ? matchmaker.ranked(entries, now) : matchmaker.unranked(entries);
             for (Matchmaker.Pair pair : pairs) {
+                if (startsLeft <= 0) {
+                    return;
+                }
                 Ticket a = q.get(pair.first().id());
                 Ticket b = q.get(pair.second().id());
                 Player pa = Bukkit.getPlayer(a.player());
@@ -191,6 +201,7 @@ public final class QueueManager {
                     }
                     break;
                 }
+                startsLeft--;
                 plugin.matches().start(a.kit(), copy, isRanked ? Match.Type.RANKED : Match.Type.UNRANKED,
                         List.of(List.of(pa), List.of(pb)), null);
             }

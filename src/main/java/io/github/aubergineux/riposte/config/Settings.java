@@ -34,6 +34,7 @@ public final class Settings {
     public final int rankedRangeIntervalSeconds;
     public final int rankedRangeMax;
     public final int rankedRequiredUnrankedWins;
+    public final int maxMatchStartsPerTick;
 
     // ranked
     public final int startingElo;
@@ -64,6 +65,8 @@ public final class Settings {
     public final int arenaSpacing;
     public final int pasteBlocksPerTick;
     public final int resetBlocksPerTick;
+    public final boolean keepArenasLoaded;
+    public final int arenaMillisPerTick;
 
     // lobby
     public final boolean lobbyOnJoin;
@@ -100,6 +103,7 @@ public final class Settings {
         rankedRangeIntervalSeconds = Math.max(1, c.getInt("queue.ranked-range.interval-seconds", 5));
         rankedRangeMax = c.getInt("queue.ranked-range.max", 500);
         rankedRequiredUnrankedWins = c.getInt("queue.ranked-required-unranked-wins", 0);
+        maxMatchStartsPerTick = Math.max(1, c.getInt("queue.max-match-starts-per-tick", 4));
 
         startingElo = c.getInt("ranked.starting-elo", 1000);
         kFactor = c.getInt("ranked.k-factor", 32);
@@ -123,8 +127,10 @@ public final class Settings {
         arenaWorld = c.getString("arenas.world", "riposte_arenas");
         templateWorld = c.getString("arenas.template-world", "riposte_templates");
         arenaSpacing = Math.max(64, c.getInt("arenas.copy-spacing", 512));
-        pasteBlocksPerTick = Math.max(1000, c.getInt("arenas.paste-blocks-per-tick", 40000));
+        pasteBlocksPerTick = Math.max(1000, c.getInt("arenas.paste-blocks-per-tick", 15000));
         resetBlocksPerTick = Math.max(500, c.getInt("arenas.reset-blocks-per-tick", 20000));
+        keepArenasLoaded = c.getBoolean("arenas.keep-loaded", true);
+        arenaMillisPerTick = Math.max(1, c.getInt("arenas.max-millis-per-tick", 10));
 
         lobbyOnJoin = c.getBoolean("lobby.teleport-on-join", true);
         lobbyVoidTeleport = c.getBoolean("lobby.void-teleport", true);

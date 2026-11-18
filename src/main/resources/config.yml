@@ -45,6 +45,8 @@ queue:
     max: 500
   # unranked wins needed (across all kits) before ranked unlocks
   ranked-required-unranked-wins: 0
+  # queues are checked every 5 ticks; starting many matches at once is spread over several checks
+  max-match-starts-per-tick: 4
 
 ranked:
   starting-elo: 1000
@@ -79,9 +81,12 @@ arenas:
   template-world: riposte_templates
   # distance between copies; arenas must be smaller than this
   copy-spacing: 512
-  # block budget per tick for pasting copies and resetting arenas
-  paste-blocks-per-tick: 40000
+  # work budget per tick for pasting copies and resetting arenas (whichever limit is hit first)
+  max-millis-per-tick: 10
+  paste-blocks-per-tick: 15000
   reset-blocks-per-tick: 20000
+  # keep arena chunks loaded so match starts never wait on chunk loading
+  keep-loaded: true
 
 setup:
   # copies created for each built-in arena by /riposte setup
