@@ -27,6 +27,11 @@ public final class InventorySnapshot {
     private final long created = System.currentTimeMillis();
 
     public InventorySnapshot(Player player, MatchStats stats, String kit) {
+        this(player, stats, kit, player.getHealth());
+    }
+
+    /** Health is passed separately because a death is cancelled (and health restored) before the snapshot. */
+    public InventorySnapshot(Player player, MatchStats stats, String kit, double health) {
         this.owner = player.getUniqueId();
         this.ownerName = player.getName();
         ItemStack[] raw = player.getInventory().getContents();
@@ -34,7 +39,7 @@ public final class InventorySnapshot {
         for (int i = 0; i < raw.length; i++) {
             contents[i] = raw[i] == null ? null : raw[i].clone();
         }
-        this.health = Math.max(0, player.getHealth());
+        this.health = Math.max(0, health);
         var attribute = player.getAttribute(org.bukkit.attribute.Attribute.MAX_HEALTH);
         this.maxHealth = attribute == null ? 20 : attribute.getValue();
         this.food = player.getFoodLevel();

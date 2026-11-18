@@ -364,7 +364,7 @@ public final class MatchManager {
         }
 
         if (player != null) {
-            victim.snapshot(new InventorySnapshot(player, victim.stats(), match.kit().id()));
+            victim.snapshot(new InventorySnapshot(player, victim.stats(), match.kit().id(), 0));
             if (player.getLocation().getY() < match.arena().floorY()) {
                 player.teleport(match.arena().center());
             }
