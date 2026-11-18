@@ -1,0 +1,6 @@
+tools/** linguist-vendored
+*.java text eol=lf
+*.yml text eol=lf
+*.md text eol=lf
+gradlew text eol=lf
+*.bat text eol=crlf
